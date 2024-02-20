@@ -1,0 +1,56 @@
+const students = [
+  {
+    id: "6",
+    lastName: "Мельник",
+    yearOfBirth: 1998,
+    group: "А",
+    faculty: "Комп'ютерні науки",
+    averageGrade: 4.4,
+    workplace: "SoftServe",
+    city: "Львів",
+  },
+  {
+    id: "7",
+    lastName: "Коваль",
+    yearOfBirth: 1997,
+    group: "Б",
+    faculty: "Інженерія",
+    averageGrade: 4.1,
+    workplace: "EPAM Systems",
+    city: "Київ",
+  },
+  {
+    id: "8",
+    lastName: "Лисенко",
+    yearOfBirth: 1999,
+    group: "В",
+    faculty: "Медицина",
+    averageGrade: 4.6,
+    workplace: "GlobalLogic",
+    city: "Харків",
+  },
+  {
+    id: "9",
+    lastName: "Шевченко",
+    yearOfBirth: 1996,
+    group: "Г",
+    faculty: "Бізнес",
+    averageGrade: 3.9,
+    workplace: "Luxoft",
+    city: "Київ",
+  },
+  {
+    id: "10",
+    lastName: "Павленко",
+    yearOfBirth: 2000,
+    group: "А",
+    faculty: "Мистецтво",
+    averageGrade: 4.2,
+    workplace: "Ciklum",
+    city: "Львів",
+  },
+];
+
+module.exports = {
+  students,
+};

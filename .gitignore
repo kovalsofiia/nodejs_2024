@@ -1,0 +1,10 @@
+node_modules
+build
+npm-debug.log
+.nyc
+.env
+.DS_Store
+.history
+.idea
+.vscode
+.lab1
