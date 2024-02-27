@@ -8,7 +8,6 @@ function _generateId() {
 async function create(item) {
   const newItem = { id: _generateId(), ...item };
   mockData.students.push(newItem);
-
   return newItem;
 }
 

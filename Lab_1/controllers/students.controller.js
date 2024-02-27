@@ -40,7 +40,7 @@ async function getStudent(req, res) {
     if (!student) {
       return res.status(400).json({
         status: 400,
-        message: "User not found.",
+        message: "Student not found.",
       });
     }
 
