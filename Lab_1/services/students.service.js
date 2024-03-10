@@ -1,14 +1,7 @@
-const mockData = require("../helpers/mock-data");
-
-function _generateId() {
-  const crypto = require("crypto");
-  return crypto.randomBytes(16).toString("hex");
-}
+const studentModel = require("../models/student.model");
 
 async function create(item) {
-  const newItem = { id: _generateId(), ...item };
-  mockData.students.push(newItem);
-  return newItem;
+  return studentModel.create(item);
 }
 
 async function find({
@@ -16,39 +9,38 @@ async function find({
   page = 1,
   perPage = Number.MAX_SAFE_INTEGER,
 }) {
-  searchString = searchString?.toLowerCase();
-  const searchResult = mockData.students.filter((u) =>
-    u.lastName?.toLowerCase().includes(searchString)
-  );
+  const filter = {
+    firstName: { $regex: `^${searchString}`, $options: "Ко" },
+  };
 
   return {
-    items: searchResult.slice((page - 1) * perPage, page * perPage),
-    count: searchResult.length,
+    items: await studentModel
+      .find(filter)
+      .skip((page - 1) * perPage)
+      .limit(Number(perPage)),
+    count: await studentModel.countDocuments(filter),
   };
 }
 
 async function findById(id) {
-  return mockData.students.find((item) => item.id == id);
+  return studentModel.findById(id);
 }
 
-async function update(itemId, itemData) {
-  const index = mockData.students.findIndex((item) => item.id === itemId);
-
-  if (index === -1) return;
-
-  const updatedItem = { ...mockData.students[index], ...itemData, id: itemId };
-
-  mockData.students[index] = updatedItem;
+async function findByIdAndUpdate(id, update) {
+  return studentModel.findByIdAndUpdate(id, update, {
+    upsert: false,
+    new: true,
+  });
 }
 
-async function remove(id) {
-  mockData.students = mockData.students.filter((item) => item.id != id);
+async function findByIdAndDelete(id) {
+  return studentModel.findByIdAndDelete(id);
 }
 
 module.exports = {
   create,
   find,
   findById,
-  update,
-  remove,
+  findByIdAndUpdate,
+  findByIdAndDelete,
 };

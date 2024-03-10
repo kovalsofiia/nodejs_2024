@@ -61,7 +61,7 @@ async function updateStudent(req, res) {
   try {
     const { studentId } = req.params;
     const studentData = req.body;
-    await studentService.update(studentId, studentData);
+    await studentService.findByIdAndUpdate(studentId, studentData);
 
     res.status(200).json({
       status: 200,
@@ -78,7 +78,7 @@ async function updateStudent(req, res) {
 async function deleteStudent(req, res) {
   try {
     const { studentId } = req.params;
-    await studentService.remove(studentId);
+    await studentService.findByIdAndDelete(studentId);
 
     res.status(200).json({
       status: 200,
