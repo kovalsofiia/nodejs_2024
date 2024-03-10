@@ -1,14 +1,10 @@
-const studentModel = require("../models/student.model");
+const studentModel = require("../models/students.model");
 
 async function create(item) {
   return studentModel.create(item);
 }
 
-async function find({
-  searchString = "",
-  page = 1,
-  perPage = Number.MAX_SAFE_INTEGER,
-}) {
+async function find({ searchString = "", page = 1, perPage = 10 }) {
   const filter = {
     firstName: { $regex: `^${searchString}` },
   };
