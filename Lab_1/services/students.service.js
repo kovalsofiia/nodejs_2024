@@ -10,7 +10,7 @@ async function find({
   perPage = Number.MAX_SAFE_INTEGER,
 }) {
   const filter = {
-    firstName: { $regex: `^${searchString}`, $options: "Hr" },
+    firstName: { $regex: `^${searchString}` },
   };
 
   return {
