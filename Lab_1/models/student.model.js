@@ -34,4 +34,4 @@ const studentSchema = new Schema(
   }
 );
 
-module.exports = model("student", studentSchema);
+module.exports = model("students", studentSchema);
