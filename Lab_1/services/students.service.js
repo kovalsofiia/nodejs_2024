@@ -33,10 +33,15 @@ async function findByIdAndDelete(id) {
   return studentModel.findByIdAndDelete(id);
 }
 
+async function patchById(id, update) {
+  return studentModel.findByIdAndUpdate(id, update, { new: true });
+}
+
 module.exports = {
   create,
   find,
   findById,
   findByIdAndUpdate,
   findByIdAndDelete,
+  patchById,
 };
