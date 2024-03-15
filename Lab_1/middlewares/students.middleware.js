@@ -24,6 +24,23 @@ async function studentByIdValidation(req, res, next) {
   }
 }
 
+async function studentByAverage(req, res, next) {
+  try {
+    const { averageGrade } = req.body;
+
+    if (averageGrade > 5 || averageGrade < 0) {
+      throw createError.BadRequest(
+        `Students grade not accepted. It must be from 0 to 5.`
+      );
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   studentByIdValidation,
+  studentByAverage,
 };
