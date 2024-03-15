@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.status(200).json({
     status: 200,
     data: {
-      message: "Node.js ExApp",
+      message: "Node.js Students App",
     },
   });
 });
@@ -63,7 +63,6 @@ app.use((err, req, res, next) => {
 });
 
 // Starting the application
-
 app.listen(port, () => {
   console.log(`Students app listening on port ${port}`);
 });

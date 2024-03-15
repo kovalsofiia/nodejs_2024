@@ -5,8 +5,8 @@ async function createStudent(req, res, next) {
   try {
     const newStudent = await studentService.create(req.body);
 
-    res.status(200).json({
-      status: 200,
+    res.status(201).json({
+      status: 201,
       message: "Student has been created successfully.",
       data: newStudent,
     });
