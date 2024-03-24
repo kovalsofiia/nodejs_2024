@@ -1,6 +1,9 @@
 const createError = require("http-errors");
 const ObjectId = require("mongoose").Types.ObjectId;
 const studentService = require("../services/students.service");
+const {
+  StudentCreateSchema,
+} = require("../joi_validation_schemas/students.schemas");
 
 async function studentByIdValidation(req, res, next) {
   try {
@@ -40,7 +43,47 @@ async function studentByAverage(req, res, next) {
   }
 }
 
+async function checkDuplicateStudent(req, res, next) {
+  try {
+    const { error } = StudentCreateSchema.validate(req.body);
+    if (error) {
+      throw createError.BadRequest(error.details[0].message);
+    }
+
+    const { firstName, lastName, yearOfBirth } = req.body;
+    const existingStudent = await studentService.findByFullNameAndYearOfBirth(
+      firstName,
+      lastName,
+      yearOfBirth
+    );
+
+    if (existingStudent) {
+      return res
+        .status(409)
+        .json({ error: "Student with the same data already exists." });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function checkUpdatedDataStudent(req, res, next) {
+  try {
+    const { error } = StudentCreateSchema.validate(req.body);
+    if (error) {
+      throw createError.BadRequest(error.details[0].message);
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   studentByIdValidation,
   studentByAverage,
+  checkDuplicateStudent,
+  checkUpdatedDataStudent,
 };

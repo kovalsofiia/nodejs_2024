@@ -6,7 +6,7 @@ const studentSchema = new Schema(
       type: String,
       trim: true,
     },
-    yearOfBirth: {
+    birthDate: {
       type: Number,
     },
     group: {

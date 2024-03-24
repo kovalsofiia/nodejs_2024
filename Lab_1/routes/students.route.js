@@ -7,7 +7,11 @@ const middleware = require("../middlewares/students.middleware");
 router
   .route("/")
   .get(controller.getStudents)
-  .post(middleware.studentByAverage, controller.createStudent);
+  .post(
+    middleware.studentByAverage,
+    middleware.checkDuplicateStudent,
+    controller.createStudent
+  );
 
 router
   .route("/:studentId")
@@ -15,11 +19,13 @@ router
   .put(
     middleware.studentByIdValidation,
     middleware.studentByAverage,
+    middleware.checkUpdatedDataStudent,
     controller.updateStudent
   )
   .patch(
     middleware.studentByIdValidation,
     middleware.studentByAverage,
+    middleware.checkUpdatedDataStudent,
     controller.partiallyUpdateStudent
   )
   .delete(middleware.studentByIdValidation, controller.deleteStudent);
