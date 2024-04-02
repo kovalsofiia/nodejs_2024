@@ -43,6 +43,23 @@ async function studentByAverage(req, res, next) {
   }
 }
 
+async function studentPassword(req, res, next) {
+  try {
+    const { password } = req.body;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).+$/;
+
+    if (!passwordRegex.test(password)) {
+      throw createError.BadRequest(
+        `Students password not accepted. It must include 1 number and 1 symbol that is not a letter.`
+      );
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function checkDuplicateStudent(req, res, next) {
   try {
     const { error } = StudentCreateSchema.validate(req.body);
@@ -84,6 +101,7 @@ async function checkUpdatedDataStudent(req, res, next) {
 module.exports = {
   studentByIdValidation,
   studentByAverage,
+  studentPassword,
   checkDuplicateStudent,
   checkUpdatedDataStudent,
 };

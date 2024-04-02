@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 
 const studentSchema = new Schema(
   {
+    firstName: {
+      type: String,
+      trim: true,
+    },
     lastName: {
       type: String,
       trim: true,
@@ -25,6 +29,14 @@ const studentSchema = new Schema(
       trim: true,
     },
     city: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+    },
+    password: {
       type: String,
       trim: true,
     },

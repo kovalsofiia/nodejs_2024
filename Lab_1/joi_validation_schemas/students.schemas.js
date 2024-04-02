@@ -17,6 +17,8 @@ const StudentCreateSchema = Joi.object({
   averageGrade: Joi.number().min(0).max(5),
   workplace: Joi.string().min(2).max(60),
   city: Joi.string().min(2).max(60),
+  email: Joi.string().min(2).max(60),
+  password: Joi.string().required().min(6).max(10),
 })
   .custom((value, helpers) => {
     const birthDate = new Date(value.birthDate);

@@ -3,6 +3,7 @@ const router = express.Router();
 
 const controller = require("../controllers/students.controller");
 const middleware = require("../middlewares/students.middleware");
+const { authenticationCheck } = require("../middlewares/auth.middleware");
 
 router
   .route("/")

@@ -1,13 +1,15 @@
 const studentService = require("../services/students.service");
 const createError = require("http-errors");
+const bcrypt = require("bcrypt");
 
 async function createStudent(req, res, next) {
   try {
     const newStudent = await studentService.create(req.body);
+
     res.status(201).json({
       status: 201,
       message: "Student has been created successfully.",
-      data: newStudent,
+      data: { newStudent },
     });
   } catch (err) {
     next(createError.InternalServerError(err.message));

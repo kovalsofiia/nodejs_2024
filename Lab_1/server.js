@@ -4,8 +4,12 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const createError = require("http-errors");
+
 const { port, mongodb_uri } = require("./config");
+
+const authRouter = require("./routes/auth.route");
 const studentsRouter = require("./routes/students.route");
+
 const { authenticationCheck } = require("./middlewares/auth.middleware");
 
 mongoose
@@ -41,6 +45,7 @@ app.use(authenticationCheck);
 
 // Rest of routs
 app.use("/students", studentsRouter);
+app.use("/auth", authRouter);
 
 // Application-level middleware. Handling requests for a non-existent path
 app.use((req, res, next) => {
