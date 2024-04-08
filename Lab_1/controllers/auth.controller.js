@@ -6,9 +6,28 @@ const { SignInSchema } = require("../joi_validation_schemas/auth.schemas");
 
 async function signIn(req, res, next) {
   try {
-    const { email } = req.body;
+    const { error } = SignInSchema.validate(req.body);
+
+    if (error) {
+      throw createError.BadRequest(error.details[0].message);
+    }
+
+    const { email, password } = req.body;
 
     const user = await studentService.findOne({ email });
+
+    if (!user) {
+      throw createError.NotFound("There is no student with such email");
+    }
+
+    // Log the retrieved user object for debugging
+    console.log("Retrieved user:", user);
+
+    const passwordCheck = bcrypt.compare(password, user.password);
+
+    if (!passwordCheck) {
+      throw createError.Unauthorized("Incorrect password");
+    }
 
     const accessToken = await authService.signAccessToken(user);
 

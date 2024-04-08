@@ -9,6 +9,7 @@ const { port, mongodb_uri } = require("./config");
 
 const authRouter = require("./routes/auth.route");
 const studentsRouter = require("./routes/students.route");
+const publishedRouter = require("./routes/published.route");
 
 const { authenticationCheck } = require("./middlewares/auth.middleware");
 
@@ -40,12 +41,10 @@ app.get("/", (req, res) => {
   });
 });
 
-// Application-level middleware. Executed every time the app receives a request and checked simple authentication
-app.use(authenticationCheck);
-
 // Rest of routs
 app.use("/students", studentsRouter);
 app.use("/auth", authRouter);
+app.use("/published", publishedRouter);
 
 // Application-level middleware. Handling requests for a non-existent path
 app.use((req, res, next) => {

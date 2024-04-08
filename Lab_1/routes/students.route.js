@@ -3,16 +3,21 @@ const router = express.Router();
 
 const controller = require("../controllers/students.controller");
 const middleware = require("../middlewares/students.middleware");
+
 const { authenticationCheck } = require("../middlewares/auth.middleware");
 
 router
   .route("/")
-  .get(controller.getStudents)
   .post(
     middleware.studentByAverage,
     middleware.checkDuplicateStudent,
     controller.createStudent
   );
+
+// Router-level middleware. Executed every time the app receives a request and checked authentication
+router.use(authenticationCheck);
+
+router.route("/").get(controller.getStudents);
 
 router
   .route("/:studentId")

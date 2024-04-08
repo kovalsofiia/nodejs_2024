@@ -2,12 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const controllers = require("../controllers/auth.controller");
-const middlewares = require("../middlewares/auth.middleware");
 
-router
-  .route("/signIn")
-  .post(middlewares.signInDataValidation, controllers.signIn);
-
-router.route("/signOut").delete(controllers.signOut);
+router.post("/signIn", controllers.signIn);
+router.delete("/signOut", controllers.signOut);
 
 module.exports = router;

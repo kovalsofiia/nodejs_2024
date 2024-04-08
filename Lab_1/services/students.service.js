@@ -1,6 +1,7 @@
 const studentModel = require("../models/student.model");
 const authModel = require("../models/auth.model");
 const bcrypt = require("bcrypt");
+
 async function create(item) {
   const studentClone = { ...item };
   const hashedPassword = await bcrypt.hash(studentClone.password, 10);
@@ -88,8 +89,8 @@ async function patchById(id, update) {
   return studentModel.findByIdAndUpdate(id, update, { new: true });
 }
 
-async function findOne(filter, projection = { password: 0, __v: 0 }) {
-  return studentModel.findOne(filter, projection);
+async function findOne(filter) {
+  return studentModel.findOne(filter);
 }
 
 module.exports = {
