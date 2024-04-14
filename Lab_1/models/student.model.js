@@ -40,6 +40,9 @@ const studentSchema = new Schema(
       type: String,
       trim: true,
     },
+    profilePicture: {
+      type: String,
+    },
   },
   {
     timestamps: true,

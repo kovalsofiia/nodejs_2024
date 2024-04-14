@@ -36,4 +36,16 @@ router
   )
   .delete(middleware.studentByIdValidation, controller.deleteStudent);
 
+router
+  .route("/:studentId/profilePicture")
+  .put(
+    middleware.studentByIdValidation,
+    middleware.studentUploadProfilePicture,
+    controller.updateStudentProfilePicture
+  );
+
+router
+  .route("/upload")
+  .post(middleware.studentsUpload, controller.uploadStudents);
+
 module.exports = router;

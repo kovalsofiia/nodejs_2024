@@ -5,6 +5,8 @@ const {
   StudentCreateSchema,
 } = require("../joi_validation_schemas/students.schemas");
 
+const multer = require("multer");
+
 async function studentByIdValidation(req, res, next) {
   try {
     const { studentId } = req.params;
@@ -98,10 +100,32 @@ async function checkUpdatedDataStudent(req, res, next) {
   }
 }
 
+const studentUploadProfilePicture = multer({
+  storage: multer.diskStorage({
+    destination: "Lab_1/public/profilePictures/",
+  }),
+  limits: { fileSize: 100 * 1024 /* bytes */ },
+  fileFilter: (req, file, callback) => {
+    if (
+      !["image/png", "image/jpeg", "image/jpg", "image/webp"].includes(
+        file.mimetype
+      )
+    ) {
+      return callback(createError.BadRequest("File is not allowed"));
+    }
+
+    callback(null, true);
+  },
+}).single("file");
+
+const studentsUpload = multer().single("file");
+
 module.exports = {
   studentByIdValidation,
   studentByAverage,
   studentPassword,
   checkDuplicateStudent,
   checkUpdatedDataStudent,
+  studentUploadProfilePicture,
+  studentsUpload,
 };
