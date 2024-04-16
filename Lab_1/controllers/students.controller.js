@@ -1,10 +1,14 @@
 const studentService = require("../services/students.service");
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
+const {
+  StudentCreateSchema,
+} = require("../joi_validation_schemas/students.schemas");
 
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
+const { json } = require("express");
 const deleteFileAsync = promisify(fs.unlink);
 
 async function createStudent(req, res, next) {
@@ -174,8 +178,14 @@ async function uploadStudents(req, res, next) {
   try {
     console.log(req.file);
     const jsonData = JSON.parse(req.file.buffer.toString());
-    // todo: save data to DB
-    res.json(jsonData);
+    console.log(jsonData);
+
+    //create from json data
+    const newStudent = await studentService.create(jsonData);
+    res.status(201).json({
+      status: 201,
+      data: newStudent,
+    });
   } catch (err) {
     next(createError.InternalServerError(err.message));
   }

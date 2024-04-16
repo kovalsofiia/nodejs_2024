@@ -46,6 +46,10 @@ router
 
 router
   .route("/upload")
-  .post(middleware.studentsUpload, controller.uploadStudents);
+  .post(
+    middleware.studentsUpload,
+    middleware.checkDuplicateStudentFromFile,
+    controller.uploadStudents
+  );
 
 module.exports = router;

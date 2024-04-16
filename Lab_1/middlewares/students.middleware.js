@@ -7,6 +7,12 @@ const {
 
 const multer = require("multer");
 
+const fs = require("fs");
+const path = require("path");
+const { promisify } = require("util");
+const { json } = require("express");
+const deleteFileAsync = promisify(fs.unlink);
+
 async function studentByIdValidation(req, res, next) {
   try {
     const { studentId } = req.params;
@@ -120,6 +126,34 @@ const studentUploadProfilePicture = multer({
 
 const studentsUpload = multer().single("file");
 
+async function checkDuplicateStudentFromFile(req, res, next) {
+  try {
+    const jsonData = JSON.parse(req.file.buffer.toString());
+
+    const { error } = StudentCreateSchema.validate(jsonData);
+    if (error) {
+      throw createError.BadRequest(error.details[0].message);
+    }
+
+    const { firstName, lastName, yearOfBirth } = jsonData;
+    const existingStudent = await studentService.findByFullNameAndYearOfBirth(
+      firstName,
+      lastName,
+      yearOfBirth
+    );
+
+    if (existingStudent) {
+      return res.status(409).json({
+        error: "Student from file with the same data already exists.",
+      });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   studentByIdValidation,
   studentByAverage,
@@ -128,4 +162,5 @@ module.exports = {
   checkUpdatedDataStudent,
   studentUploadProfilePicture,
   studentsUpload,
+  checkDuplicateStudentFromFile,
 };
