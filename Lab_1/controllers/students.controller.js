@@ -165,6 +165,14 @@ async function updateStudentProfilePicture(req, res, next) {
       );
     }
 
+    const { image } = req.file;
+
+    // If no image submitted, exit
+    if (!image) return res.sendStatus(400);
+
+    // Move the uploaded image to our upload folder
+    image.mv(__dirname + "/pictures/" + image.name);
+
     res.status(200).json({
       status: 200,
       message: "Student profile picture updated successfully.",

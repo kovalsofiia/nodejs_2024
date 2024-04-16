@@ -12,12 +12,13 @@ const authRouter = require("./routes/auth.route");
 const studentsRouter = require("./routes/students.route");
 const publishedRouter = require("./routes/published.route");
 
-const { authenticationCheck } = require("./middlewares/auth.middleware");
-
+// const { authenticationCheck } = require("./middlewares/auth.middleware");
+const startScheduleJobs = require("./jobs");
 mongoose
   .connect(mongodb_uri)
   .then(() => {
     console.log("Connected to MongoDB Atlas");
+    startScheduleJobs();
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB Atlas:", error.message);
