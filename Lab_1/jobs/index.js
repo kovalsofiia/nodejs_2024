@@ -6,7 +6,9 @@ function start() {
     console.warn("Jobs scheduling is not enabled.");
     return;
   }
-  startHeartBeatJob();
+  startHeartBeatJob().catch((err) => {
+    console.error("Error starting heartbeat job:", err);
+  });
 }
 
 module.exports = start;

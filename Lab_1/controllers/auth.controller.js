@@ -30,7 +30,9 @@ async function signIn(req, res, next) {
     }
 
     const accessToken = await authService.signAccessToken(user);
-    await usersService.findByIdAndUpdate(user.id, { lastLoginAt: Date.now() });
+    await studentService.findByIdAndUpdate(user.id, {
+      lastLoginAt: Date.now(),
+    });
 
     res
       .cookie("access_token", accessToken, { httpOnly: true })

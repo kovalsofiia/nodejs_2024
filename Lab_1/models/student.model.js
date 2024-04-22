@@ -46,6 +46,9 @@ const studentSchema = new Schema(
     lastLoginAt: {
       type: Date,
     },
+    reminderWater: {
+      type: String,
+    },
   },
   {
     timestamps: true,
