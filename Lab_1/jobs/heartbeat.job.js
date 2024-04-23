@@ -1,27 +1,19 @@
 const CronJob = require("cron").CronJob;
-const createError = require("http-errors");
+const studentModel = require("../models/student.model");
 
-async function startHeartBeatJob(req, res, next) {
-  try {
-    const { reminderWater } = req.body;
-
-    if (reminderWater) {
-      const job = new CronJob("0 0 * * * *", () => {
-        console.log("[heartbeat.job] You will see this message every hour.");
-      });
-
-      job.start();
-    }
-
-    res.status(200).json({
-      status: 200,
-      message: "Water reminder job created successfully",
+function startHeartBeatJob() {
+  console.log("started water reminder");
+  const job = new CronJob("0 * * * * *", async () => {
+    const students = await studentModel.find({});
+    students.forEach((student) => {
+      if (student.reminderWater && student.reminderWater === "true")
+        console.log(`[heartbeat.job] Drink water for student ${student.email}`);
     });
-  } catch (err) {
-    next(createError.InternalServerError(err.message));
-  }
+  });
+  job.start();
 }
-// function startHeartBeatJob(result) {
+
+// function startHeartBeatJob() {
 //   const job = new CronJob(
 //     "0 * * * * *", // At every minute
 //     () => {
