@@ -5,6 +5,7 @@ const {
   StudentCreateSchema,
 } = require("../joi_validation_schemas/students.schemas");
 
+const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
@@ -151,10 +152,24 @@ async function updateStudentProfilePicture(req, res, next) {
         "profilePictures",
         student.profilePicture
       );
-      await deleteFileAsync(filePath);
+      await deleteFileAsync(filePath); // Delete the existing file
     }
 
     // Update the student's profilePicture field
+    const imagePath = path.join(
+      __dirname,
+      "..",
+      "public",
+      "profilePictures",
+      req.file.filename + ".jpg"
+    );
+
+    // Resize and convert the uploaded file to JPEG
+    await sharp(req.file.path)
+      .resize({ width: 300, height: 300 }) // Resize to 300x300 pixels (optional)
+      .jpeg({ quality: 80 }) // Convert to JPEG with 80% quality
+      .toFile(imagePath);
+
     const updatedStudent = await studentService.findByIdAndUpdate(studentId, {
       profilePicture: req.file.filename,
     });
