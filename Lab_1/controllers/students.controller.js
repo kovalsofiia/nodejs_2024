@@ -148,6 +148,7 @@ async function updateStudentProfilePicture(req, res, next) {
       const filePath = path.join(
         __dirname,
         "..",
+        "Lab_1",
         "public",
         "profilePictures",
         student.profilePicture
@@ -156,12 +157,13 @@ async function updateStudentProfilePicture(req, res, next) {
     }
 
     // Update the student's profilePicture field
+    console.log(req.file);
     const imagePath = path.join(
       __dirname,
       "..",
       "public",
       "profilePictures",
-      req.file.filename + ".jpg"
+      `${req.file.filename}.${String(req.file.mimetype).split("/")[1]}`
     );
 
     // Resize and convert the uploaded file to JPEG
